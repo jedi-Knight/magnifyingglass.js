@@ -193,13 +193,11 @@ MagnifyingGlass = {
             if (magnifyToggleButton)
                 new MagnifyingGlass.MagnifyingGlass({
                     target: document.getElementById("magnifying-glass-target"),
-                    //lightbox: document.getElementById("magnifying-glass-target-lightbox"),
                     toggle_button: magnifyToggleButton
                 });
             else
                 new MagnifyingGlass.MagnifyingGlass({
                     target: document.getElementById("magnifying-glass-target")
-                    //,lightbox: document.getElementById("magnifying-glass-target-lightbox")
                 }).magnification.start();
         });
     }
