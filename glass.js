@@ -27,14 +27,16 @@ function MagnifyingGlass(content) {
     this.getElement = function() {
         return glass;
     };
+    this.getContent = function(){
+        return content;
+    };
 }
 
 document.addEventListener("DOMContentLoaded", function() {
 
     var target = document.getElementById("container");
-    var magnifyingGlass = new MagnifyingGlass(target.getElementsByClassName("zoomee")[0]);
+    var magnifyingGlass = new MagnifyingGlass(target);
     target.appendChild(magnifyingGlass.getElement());
-//var contentStyle = target.getElementsByClassName("zoomee")[0].getAttribute("style");
 
     target.addEventListener("mousemove", function(e) {
         var x = (Number(e.clientX));
@@ -42,11 +44,13 @@ document.addEventListener("DOMContentLoaded", function() {
         var x1 = (Number(e.layerX));
         var y1 = (Number(e.layerY));
         magnifyingGlass.getElement().setAttribute("style", magnifyingGlass.defaultStyle() + "left:" + (x - 100) + "px;top:" + (y - 100) + "px;");
-        var content = magnifyingGlass.getElement().getElementsByClassName("zoomee")[0];
-        content.setAttribute("style", magnifyingGlass.defaultContentStyle() + "left:" + (-2*x) + "px;top:" + (-2*y) + "px;");
+        var content = magnifyingGlass.getContent();
+        content.setAttribute("style", magnifyingGlass.defaultContentStyle() + "left:" + (-2*x-25) + "px;top:" + (-2*y-25) + "px;");
 
-        document.getElementById("coords").innerHTML = x + ", " + y;
-        document.getElementById("coordsOne").innerHTML = x1 + ", " + y1;
+        document.getElementsByClassName("coords")[0].innerHTML = x + ", " + y;
+        document.getElementsByClassName("coordsOne")[0].innerHTML = x1 + ", " + y1;
+        document.getElementsByClassName("coords")[1].innerHTML = x + ", " + y;
+        document.getElementsByClassName("coordsOne")[1].innerHTML = x1 + ", " + y1;
     });
 }, false);
 
