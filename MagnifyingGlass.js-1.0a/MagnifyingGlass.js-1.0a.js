@@ -115,6 +115,7 @@ MagnifyingGlass = {
 
         function init(toggle) {
             if (!toggle) {
+                glass.remove();
                 target.onmouseover = null;
                 return;
             }
