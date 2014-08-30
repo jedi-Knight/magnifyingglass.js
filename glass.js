@@ -11,7 +11,7 @@ function MagnifyingGlass(content) {
     glass.setAttribute("style", style);
     content = content.cloneNode(true);
     var zoomStyle = "-webkit-transform-origin: -150px -150px;" +
-            "-webkit-transform:scale(2,2);";
+            "-webkit-transform:scale(2,2);position:absolute;";
 
     this.defaultStyle = function() {
         return style;
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var y1 = (Number(e.layerY));
         magnifyingGlass.getElement().setAttribute("style", magnifyingGlass.defaultStyle() + "left:" + (x - 100) + "px;top:" + (y - 100) + "px;");
         var content = magnifyingGlass.getElement().getElementsByClassName("zoomee")[0];
-        content.setAttribute("style", magnifyingGlass.defaultContentStyle() + "margin-left:" + (-2 * x) + "px;margin-top:" + (-2 * y) + "px;");
+        content.setAttribute("style", magnifyingGlass.defaultContentStyle() + "left:" + (-2*x) + "px;top:" + (-2*y) + "px;");
 
         document.getElementById("coords").innerHTML = x + ", " + y;
         document.getElementById("coordsOne").innerHTML = x1 + ", " + y1;
