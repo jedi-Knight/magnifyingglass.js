@@ -1,0 +1,14 @@
+body{
+padding:0px;
+}
+#container{
+    /*margin-top:100px;
+    margin-left:100px;*/
+}
+img.zoomee{
+    width:300px;
+    height:300px;
+}
+.glass{
+    opacity:1;
+}
