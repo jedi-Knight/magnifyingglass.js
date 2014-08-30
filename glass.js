@@ -148,9 +148,6 @@ function MagnifyingGlass(options) {
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    /*new MagnifyingGlass({
-     target: document.getElementById("container")
-     }).magnify();*/
     var magnifyToggleButton = document.getElementById("magnifying-glass-button");
     if (magnifyToggleButton)
         new MagnifyingGlass({
@@ -161,7 +158,5 @@ document.addEventListener("DOMContentLoaded", function() {
         new MagnifyingGlass({
             target: document.getElementById("magnifying-glass-target")
         }).magnification.start();
-
-
 });
 
