@@ -15,18 +15,18 @@ function MagnifyingGlass(content) {
 
     this.defaultStyle = function() {
         return style;
-    }
+    };
     var contentStyle = content.getAttribute("style");
     contentStyle = contentStyle ? contentStyle : "";
     content.setAttribute("style", contentStyle + zoomStyle);
 
     this.defaultContentStyle = function() {
         return contentStyle + zoomStyle;
-    }
+    };
     glass.appendChild(content);
     this.getElement = function() {
         return glass;
-    }
+    };
 }
 
 document.addEventListener("DOMContentLoaded", function() {
