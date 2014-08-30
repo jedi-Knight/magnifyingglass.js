@@ -132,9 +132,9 @@ MagnifyingGlass = {
                 var x = (Number(e.pageX));
                 var y = (Number(e.pageY));
 
-                if (x > (targetRect.right+glass_diameter/(2*power)) | x < (targetRect.left-1.5*glass_diameter/(2*power)))
+                if (x > (targetRect.right + glass_diameter / (2 * power)) | x < (targetRect.left - 1.5 * glass_diameter / (2 * power)))
                     glass.remove();
-                if (y > (targetRect.bottom+glass_diameter/(2*power)) | x < (targetRect.top-1.5*glass_diameter/(2*power)))
+                if (y > (targetRect.bottom + glass_diameter / (2 * power)) | x < (targetRect.top - 1.5 * glass_diameter / (2 * power)))
                     glass.remove();
 
 
