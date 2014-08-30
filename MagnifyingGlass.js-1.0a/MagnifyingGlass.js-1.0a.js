@@ -91,9 +91,10 @@ MagnifyingGlass = {
                 "position:absolute;";
         glass.setAttribute("style", style);
 
-
         var zoomStyle = "-webkit-transform-origin:-" + contentWidth / 2 + "px -" + contentHeight / 2 + "px;" +
-                "-webkit-transform:scale(" + power + "," + power + ");position:absolute;";
+                "-webkit-transform:scale(" + power + "," + power + ");";
+        zoomStyle = zoomStyle + "transform-origin:-" + contentWidth / 2 + "px -" + contentHeight / 2 + "px;" +
+                "transform:scale(" + power + "," + power + ");position:absolute;";
 
 
         var contentStyle = content.getAttribute("style");
