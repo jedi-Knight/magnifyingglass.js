@@ -1,22 +1,3 @@
-function UI_Button(initObj) {
-    var button = $("<a></a>");
-    if (initObj) {
-        $(button).attr(function() {
-            var attrObj = {};
-            for (var attr in initObj.attributes) {
-                attrObj[attr] = initObj.attributes[attr];
-            }
-            return attrObj;
-        }());
-        for (var event in initObj.eventHandlers) {
-            $(button).on(event, initObj.eventHandlers[event]);
-        }
-        $(typeof initObj.content === "function" ? initObj.content.call() : initObj.content).appendTo(button);
-    }
-
-    return button;
-}
-
 function PluginError(params) {
     var e = function() {
         this.name = params.name;
@@ -39,26 +20,27 @@ function MagnifyingGlass(options) {
         content = options.target ? options.target : content;
         glass_diameter = options.glass_diameter ? options.glass_diameter : glass_diameter;
         power = options.power ? options.power : power;
-        magnifyButton = options.magnify_button? true: false;
+        magnifyButton = options.toggle_button ? options.toggle_button : false;
     }
 
-    if(!content) throw new PluginError({
-       name:"Constructor Error",
-       message:"Magnification Target not found. See plugin documentation for more info on this.",
-       params: options
-    });
-    
+    if (!content)
+        throw new PluginError({
+            name: "Constructor Error",
+            message: "Magnification Target not found. See plugin documentation for more info on this.",
+            params: options
+        });
+
     target = content;
     targetRect = target.getBoundingClientRect();
     content = content.cloneNode(true);
-    content.id="zoomed";
+    content.id = "zoomed";
 
     var contentWidth = targetRect.width;
     var contentHeight = targetRect.height;
     var contentX = 0;
     var contentY = 0;
     contentX = targetRect.left;
-        contentY = targetRect.top;
+    contentY = targetRect.top;
     if (content.style.position === "absolute") {
         contentX = targetRect.left;
         contentY = targetRect.top;
@@ -76,8 +58,8 @@ function MagnifyingGlass(options) {
             "box-shadow:0px 0px 6px 2px #000000;" +
             "position:absolute;";
     glass.setAttribute("style", style);
-    
-    
+
+
     var zoomStyle = "-webkit-transform-origin:-" + contentWidth / 2 + "px -" + contentHeight / 2 + "px;" +
             "-webkit-transform:scale(" + power + "," + power + ");position:absolute;";
 
@@ -98,86 +80,88 @@ function MagnifyingGlass(options) {
     this.getContent = function() {
         return content;
     };
-    
-    function init(){
-        target.onmouseover=function(){
+
+    function init(toggle) {
+        if (!toggle) {
+            target.onmouseover = null;
+            return;
+        }
+        target.onmouseover = function() {
             target.appendChild(glass);
         };
-        
-        
-        target.addEventListener("mousemove", function(e){
-            
-            
-           
-           
-           var x = (Number(e.clientX));
-           var y = (Number(e.clientY));
-           
-           if(x>targetRect.right | x<targetRect.left) glass.remove();
-           if(y>targetRect.bottom | x<targetRect.top) glass.remove();
-           
-       
-           
-           var glassX = x - contentX -glass_diameter/2;
-           var glassY = y - contentY - glass_diameter/2;
-           
-            
-            
-           glass.setAttribute("style", style + "left:" + (glassX) + "px;top:" + (glassY) + "px;");
-           content.setAttribute("style", defaultContentStyle() + "left:" + (-power * x + glass_diameter -contentWidth/2) + "px;top:" + (-power * y + glass_diameter -contentHeight/2) + "px;");
-           
-            });
+
+
+        target.addEventListener("mousemove", function(e) {
+
+
+
+
+            var x = (Number(e.clientX));
+            var y = (Number(e.clientY));
+
+            if (x > targetRect.right | x < targetRect.left)
+                glass.remove();
+            if (y > targetRect.bottom | x < targetRect.top)
+                glass.remove();
+
+
+
+            var glassX = x - contentX - glass_diameter / 2;
+            var glassY = y - contentY - glass_diameter / 2;
+
+
+
+            glass.setAttribute("style", style + "left:" + (glassX) + "px;top:" + (glassY) + "px;");
+           content.setAttribute("style", defaultContentStyle() + "left:" + (-power * x /*+ glass_diameter -contentWidth/2*/) + "px;top:" + (-power * y /*+ glass_diameter -contentHeight/2*/) + "px;");
+
+        });
     }
-    
-    if(magnifyButton){
-        magnifyButton = new UI_Button({
-            attributes:{
-                class:"magnifying-glass-trigger"
-            },
-            eventHandlers:{
-                click: init
+
+    if (magnifyButton) {
+        var toggleState = 0;
+        magnifyButton.addEventListener("click", function() {
+            toggleState += 1;
+            toggleState %= 2;
+            if (toggleState) {
+                init(true);
+            } else {
+                init(false);
             }
         });
-        content.appendChild(magnifyButton);
+        target.appendChild(magnifyButton);
     }
-    
-    this.magnify = function(){
-        init();
+
+    this.magnification = {
+        start: function() {
+            init(true);
+        },
+        stop: function() {
+            init(false);
+        }
     };
 
     glass.appendChild(content);
-    
-    
-    
+
+
+
 }
 
-/*document.addEventListener("DOMContentLoaded", function() {
-
-    var target = document.getElementById("container");
-    var magnifyingGlass = new MagnifyingGlass(target);
-    target.appendChild(magnifyingGlass.getElement());
-
-    target.addEventListener("mousemove", function(e) {
-        var x = (Number(e.clientX));
-        var y = (Number(e.clientY));
-        var x1 = (Number(e.layerX));
-        var y1 = (Number(e.layerY));
-        magnifyingGlass.getElement().setAttribute("style", magnifyingGlass.defaultStyle() + "left:" + (x - 100) + "px;top:" + (y - 100) + "px;");
-        var content = magnifyingGlass.getContent();
-        content.setAttribute("style", magnifyingGlass.defaultContentStyle() + "left:" + (-2 * x + 100) + "px;top:" + (-2 * y + 100) + "px;");
-
-        document.getElementsByClassName("coords")[0].innerHTML = x + ", " + y;
-        document.getElementsByClassName("coordsOne")[0].innerHTML = x1 + ", " + y1;
-        document.getElementsByClassName("coords")[1].innerHTML = x + ", " + y;
-        document.getElementsByClassName("coordsOne")[1].innerHTML = x1 + ", " + y1;
-    });
-}, false);*/
 
 document.addEventListener("DOMContentLoaded", function() {
-    new MagnifyingGlass({
-        target: document.getElementById("container")
-    }).magnify();
-    
-    
+    /*new MagnifyingGlass({
+     target: document.getElementById("container")
+     }).magnify();*/
+    var magnifyToggleButton = document.getElementById("magnifying-glass-button");
+    if (magnifyToggleButton)
+        new MagnifyingGlass({
+            target: document.getElementById("magnifying-glass-target"),
+            toggle_button: magnifyToggleButton
+        });
+    else
+        new MagnifyingGlass({
+            target: document.getElementById("magnifying-glass-target")
+        }).magnification.start();
+
+
 });
 
