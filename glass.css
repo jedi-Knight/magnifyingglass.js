@@ -1,19 +1,21 @@
-body{
+/*body{
     padding:0px;
 }
 #container{
-    /*position:absolute;*/
-    /*margin:200px;*/
-/*    margin-left:200px;
-    margin-top:200px;*/
+    position:absolute;
+    margin:200px;
+    margin-left:200px;
+    margin-top:200px;
 }
 #container>*{
     margin:initial;
 }
+*/
 #container>img.zoomee{
     width:400px;
     height:400px;
 }
+/*
 .glass{
     opacity:1;
 }
@@ -23,4 +25,4 @@ body{
 }
 .glass .zoomee{
     opacity:1;
-}
+}*/

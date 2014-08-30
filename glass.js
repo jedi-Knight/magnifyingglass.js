@@ -33,7 +33,7 @@ function MagnifyingGlass(options) {
     var glass_diameter = 200;
     var power = 2;
     var magnifyButton = false;
-    var target;
+    var target, targetRect;
 
     if (options) {
         content = options.target ? options.target : content;
@@ -49,22 +49,25 @@ function MagnifyingGlass(options) {
     });
     
     target = content;
+    targetRect = target.getBoundingClientRect();
     content = content.cloneNode(true);
     content.id="zoomed";
 
-    var contentWidth = content.clientWidth;
-    var contentHeight = content.clientHeight;
+    var contentWidth = targetRect.width;
+    var contentHeight = targetRect.height;
     var contentX = 0;
     var contentY = 0;
+    contentX = targetRect.left;
+        contentY = targetRect.top;
     if (content.style.position === "absolute") {
-        contentX = content.clientLeft;
-        contentY = content.clientTop;
+        contentX = targetRect.left;
+        contentY = targetRect.top;
     }
 
 
 
     var glass = document.createElement("div");
-    glass.setAttribute("class", "glass");
+    glass.setAttribute("id", "glass");
     var style = "width:" + glass_diameter + "px;" +
             "height:" + glass_diameter + "px;" +
             "border:#cccccc solid thick;" +
@@ -97,13 +100,33 @@ function MagnifyingGlass(options) {
     };
     
     function init(){
-        target.appendChild(glass);
+        target.onmouseover=function(){
+            target.appendChild(glass);
+        };
+        
+        
         target.addEventListener("mousemove", function(e){
+            
+            
+           
+           
            var x = (Number(e.clientX));
            var y = (Number(e.clientY));
-           glass.setAttribute("style", style + "left:" + (x + contentX/2 -100) + "px;top:" + (y + contentY/2 -100) + "px;");
-           content.setAttribute("style", defaultContentStyle() + "left:" + (-power * x + contentX/2 +200) + "px;top:" + (-2 * y + contentY/2 +200) + "px;");
-        });
+           
+           if(x>targetRect.right | x<targetRect.left) glass.remove();
+           if(y>targetRect.bottom | x<targetRect.top) glass.remove();
+           
+       
+           
+           var glassX = x - contentX -glass_diameter/2;
+           var glassY = y - contentY - glass_diameter/2;
+           
+            
+            
+           glass.setAttribute("style", style + "left:" + (glassX) + "px;top:" + (glassY) + "px;");
+           content.setAttribute("style", defaultContentStyle() + "left:" + (-power * x + glass_diameter -contentWidth/2) + "px;top:" + (-power * y + glass_diameter -contentHeight/2) + "px;");
+           
+            });
     }
     
     if(magnifyButton){
@@ -123,6 +146,7 @@ function MagnifyingGlass(options) {
     };
 
     glass.appendChild(content);
+    
     
     
 }
@@ -153,5 +177,7 @@ document.addEventListener("DOMContentLoaded", function() {
     new MagnifyingGlass({
         target: document.getElementById("container")
     }).magnify();
+    
+    
 });
 
