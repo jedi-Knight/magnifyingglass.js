@@ -1,0 +1,21 @@
+#map{
+    width:500px;
+    height:500px;
+}
+#popup-content{
+    padding:50px;
+}
+#popup-content>img{
+    width:300px;
+    height:300px;
+    
+}
+/*.leaflet-popup-pane{
+    position:absolute;
+    top:0px !important;
+    right:0px !important;
+    margin:0px !important;
+}*/
+.leaflet-popup-tip-container{
+    /*display:none;*/
+}

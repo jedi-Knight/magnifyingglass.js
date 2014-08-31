@@ -1,14 +1,4 @@
 MagnifyingGlass = {
-    PluginError: function(params) {
-        var e = function() {
-            this.name = params.name;
-            this.message = params.message;
-            this.params = params.params;
-        };
-        e.prototype = new Error();
-        e.prototype.constructor = e;
-        return e;
-    },
     MagnifyingGlass: function(options) {
         var content = document.getElementById("magnify-enabled");
         var glass_diameter = 200;
@@ -28,7 +18,7 @@ MagnifyingGlass = {
         }
 
         if (!content)
-            throw new PluginError({
+            throw new MagnifyingGlass.PluginError({
                 name: "Constructor Error",
                 message: "Magnification Target not found. See plugin documentation for more info on this.",
                 params: options
@@ -201,6 +191,16 @@ MagnifyingGlass = {
                     target: document.getElementById("magnifying-glass-target")
                 }).magnification.start();
         });
+    },
+    PluginError: function(params) {
+        var e = function() {
+            this.name = params.name;
+            this.message = params.message;
+            this.params = params.params;
+        };
+        e.prototype = new Error();
+        e.prototype.constructor = e;
+        return e;
     }
 };
 
