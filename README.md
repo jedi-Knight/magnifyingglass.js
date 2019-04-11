@@ -3,7 +3,7 @@
 ## Introduction
 This is a simple JavaScript magnifying glass widget for web pages.
 
-## Usage
+## Usage and Configuration
 ```
 <script src="http://jedi-knight.github.io/magnifyingglass.js/MagnifyingGlass.js-1.0a/MagnifyingGlass.js-1.0a.js"></script>
 <script>
@@ -18,7 +18,7 @@ This is a simple JavaScript magnifying glass widget for web pages.
 </script>
 ```
 
-## Configuration parameters
+## Examples
 1. Toggle button to start and stop
 [http://jedi-knight.github.io/magnifyingglass.js/examples/default_autoinit.html](http://jedi-knight.github.io/magnifyingglass.js/examples/default_autoinit.html)
 
