@@ -1,5 +1,4 @@
-####Examples:<br/>
-
+#### Examples:
 1. Default:
     [/examples/default_autoinit.html](examples/default_autoinit.html)
     
